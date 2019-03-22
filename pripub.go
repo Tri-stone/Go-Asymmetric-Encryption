@@ -52,52 +52,6 @@ func GenRsaKey(bits int) error {
 	return nil
 }
 
-// //RsaSignWithShaHex 签名
-// func RsaSignWithShaHex(data string, prvKey []byte) (string, error) {
-// 	//获取私钥
-// 	block, _ := pem.Decode(prvKey)
-// 	if block == nil {
-// 		return "", errors.New("private key error")
-// 	}
-
-// 	// keyByts, err := hex.DecodeString(prvKey)
-// 	// if err != nil {
-// 	// 	fmt.Println(err)
-// 	// 	return "", err
-// 	// }
-// 	privateKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
-// 	if err != nil {
-// 		fmt.Println("ParsePKCS8PrivateKey err", err)
-// 		return "", err
-// 	}
-// 	h := sha1.New()
-// 	h.Write([]byte([]byte(data)))
-// 	hash := h.Sum(nil)
-// 	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey.(*rsa.PrivateKey), crypto.SHA1, hash[:])
-// 	if err != nil {
-// 		fmt.Printf("Error from signing: %s\n", err)
-// 		return "", err
-// 	}
-// 	out := hex.EncodeToString(signature)
-// 	return out, nil
-// }
-
-// //RsaVerifySignWithShaBase64 验签
-// func RsaVerifySignWithShaBase64(originalData string, signData string, pubKey string) error {
-// 	sign, err := base64.StdEncoding.DecodeString(signData)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	public, _ := base64.StdEncoding.DecodeString(pubKey)
-// 	pub, err := x509.ParsePKIXPublicKey(public)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	hash := sha1.New()
-// 	hash.Write([]byte(originalData))
-// 	return rsa.VerifyPKCS1v15(pub.(*rsa.PublicKey), crypto.SHA1, hash.Sum(nil), sign)
-// }
-
 // RsaSign 私钥签名
 func RsaSign(data []byte, privateKey []byte) ([]byte, error) {
 	h := sha256.New()
@@ -167,3 +121,49 @@ func RsaDecrypt(ciphertext []byte, privateKey []byte) ([]byte, error) {
 	// 解密
 	return rsa.DecryptPKCS1v15(rand.Reader, priv, ciphertext)
 }
+
+// //RsaSignWithShaHex 签名
+// func RsaSignWithShaHex(data string, prvKey []byte) (string, error) {
+// 	//获取私钥
+// 	block, _ := pem.Decode(prvKey)
+// 	if block == nil {
+// 		return "", errors.New("private key error")
+// 	}
+
+// 	// keyByts, err := hex.DecodeString(prvKey)
+// 	// if err != nil {
+// 	// 	fmt.Println(err)
+// 	// 	return "", err
+// 	// }
+// 	privateKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+// 	if err != nil {
+// 		fmt.Println("ParsePKCS8PrivateKey err", err)
+// 		return "", err
+// 	}
+// 	h := sha1.New()
+// 	h.Write([]byte([]byte(data)))
+// 	hash := h.Sum(nil)
+// 	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey.(*rsa.PrivateKey), crypto.SHA1, hash[:])
+// 	if err != nil {
+// 		fmt.Printf("Error from signing: %s\n", err)
+// 		return "", err
+// 	}
+// 	out := hex.EncodeToString(signature)
+// 	return out, nil
+// }
+
+// //RsaVerifySignWithShaBase64 验签
+// func RsaVerifySignWithShaBase64(originalData string, signData string, pubKey string) error {
+// 	sign, err := base64.StdEncoding.DecodeString(signData)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	public, _ := base64.StdEncoding.DecodeString(pubKey)
+// 	pub, err := x509.ParsePKIXPublicKey(public)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	hash := sha1.New()
+// 	hash.Write([]byte(originalData))
+// 	return rsa.VerifyPKCS1v15(pub.(*rsa.PublicKey), crypto.SHA1, hash.Sum(nil), sign)
+// }
